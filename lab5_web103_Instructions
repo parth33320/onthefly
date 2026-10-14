@@ -1,0 +1,1337 @@
+Skip to main content
+CodePath
+Student Hub
+Courses
+Applications
+Career
+Member ID 154815
+
+Parth Patel
+Courses
+Quick Links
+Quick Actions
+WEB103 | Advanced Web Development
+Advanced Web Development Fall 2026 (@ Section 1 | Wednesdays 3PM - 5PM PT)
+Personal Member ID#: 154815
+Need help? Post on our Class Slack Channel or email us at support@codepath.org
+
+Getting Started
+Learning with AI ✨
+Course Info
+ Course Progress
+Individual
+Capstone Project
+Unit 5  
+Unit 6  
+Unit 7  
+Unit 8  
+Unit 9  
+Unit 10  
+ Schedule
+ 
+ Overview
+Lab
+Capstone Project
+ Resources
+ Report
+Unit 5 Lab: On The Fly: Part 1
+Overview
+Planning a big trip like a bachelor party, graduation tour, or road trip can get complicated, especially when you're balancing different schedules and budgets. You'll create a new web app called ✈️ On the Fly, which makes planning trips with friends and family a breeze. The web app allows a user to create a new trip and add destinations to that trip. Vegas graduation trip with stops at the Bellagio fountain and Caesar's Palace blackjack tables? Count me in!
+
+🎯 Goals
+By the end of this lab you will be able to...
+
+Set up a cloud PostgreSQL database on Render
+Create and design schemas for multiple database tables
+Create database relationships using primary keys, foreign keys, and join tables
+Write SQL queries to create, update, and interrogate a relational database using SQL
+Apply PostgreSQL's naming conventions to table and column names
+Features
+Required Features
+Users can view all active trips.
+Users can create, view, update, and delete a trip.
+Users can assign a cost, date, and description to a trip.
+Users can choose from a list of available destinations to assign to a trip.
+Users can view all trips associated with a given destination.
+Users can view a trip's budget, description, date, and entertainment options.
+Stretch Features
+Users can add photos to trips and destinations.
+Resources
+🔗 Express API Reference
+🔗 Render Docs
+🔗 Express cors middleware
+🔗 Routes and Controllers
+🔗 Postman
+🔗 Postman Academy
+🔗 Sending API Requests through Postman
+
+Lab Instructions
+Required Features
+Step 0: Back-End Setup
+In this step, we'll start setting up the backend of the web app. We'll create a new directory to store all of the backend related folders and set up point of entry and configuration files. Additionally, we'll install Node.js and necessary dependencies to create our server.
+
+
+Create a new GitHub repository for this lab called onthefly.
+
+
+Clone the repository and open it in VS Code.
+
+
+Inside your repository, create a directory called server. This directory will store all files related to the backend of the application.
+
+
+Inside the server directory, create a JavaScript file called server.js. We will use this file as the starting point of the server app.
+
+
+Using the terminal, write the command npm init -y. This initializes the project and creates a package.json file, which enables npm to start your project, run scripts, install dependencies.
+
+
+Using the terminal, run the command npm install cors express nodemon pg dotenv. This installs the following dependencies we will need for this project:
+
+cors - to make Cross Origin requests
+express - a framework for the routing of the applications
+pg - to connect to a Postgres database
+nodemon - automatically resets the server when we make changes
+dotenv - access environment variables stored in a .env file
+
+In the package.json:
+
+Change the value of the "main" field from "index.js" (line 5) to "server.js". A package.json "main" value of "server.js" tells Node.js that server.js is the primary entry point to your application.
+Change the value of the "script" field from { "test": "echo \"Error: no test specified\" && exit 1"}, (line 6) to { "start": "npx nodemon server.js"},. This defines a start script. Instead of writing npx nodemon server.js in the terminal to start the server, we can only have to write npm start. Short and sweet!
+Add a new line after the "main" field (line 5) and write this code: "type": "module",. A package.json "type" value of "module" tells Node.js to interpret .js files within that package as using newer ES module syntax.
+📍Checkpoint 0: Your package.json file should look like the following:
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "npx nodemon server.js",
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "nodemon": "^2.0.20",
+    "pg": "^8.9.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
+Step 1: Set up an Express server
+In this step, we will begin setting up the Express server in server.js by importing and setting up any dependencies needed for middleware layers. The role of middleware is to enable and ease access to those backend resources. Middleware is the software that sits between the client-side requests on the front end and the backend resource being requested.
+
+AI opportunity
+
+Use AI to explain code concepts → middleware in Express
+If you want to learn more about middleware in Express, start by asking Copilot one or more of these questions:
+
+What is the purpose of middleware in Express?
+What are some examples of middleware functions in Express?
+Can I create custom middleware in Express?
+In your server.js file:
+
+
+Import express and cors.
+
+import express from 'express'
+import cors from 'cors'
+
+Initialize an Express instance.
+
+// create express app
+const app = express()
+Let's add the middleware we'll need. The general syntax for adding middleware to a server is app.use(<insert middleware>)
+
+
+Add the express.json() middleware to parse JSON data from HTTP requests.
+
+app.use(express.json())
+
+Add the cors middleware layer to enable Cross Origin requests.
+
+app.use(cors())
+
+Create a route handler for a GET request at / that responds with a status code 200 and an h1 element containing the text ✈️ On the Fly API
+
+app.get('/', (req, res) => {
+    res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ On the Fly API</h1>')
+})
+
+Start a server to on either a port defined in an environment variable or 3001.
+
+AI opportunity
+
+Use AI to brainstorm ideas for your code → Generating sample code
+Feel free to ask Copilot for an example or to generate this code for you. You might try saying something like "How do I start an Express server?" or "Can you show me the code for starting an Express server on either an environment variable or 3001?"
+
+Want to double-check your code? Compare what you have to this ⤵️
+const PORT = process.env.PORT || 3001
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+})
+💡 Note: In a later unit, we'll deploy our ✈️ On the Fly app to Render, which will use a different port to run the server. The process.env.PORT will allow Render to use its port instead of 3001 so our server will run as expected when it's deployed.
+Let's try running the server!
+
+In the terminal, open a new terminal window or tab.
+Navigate to the server directory.
+Enter the command npm start.
+
+npm-start
+📍 Checkpoint 1: Your server.js file should look like the following:
+import express from 'express'
+import cors from 'cors'
+
+const app = express()
+
+app.use(express.json())
+app.use(cors())
+
+app.get('/', (req, res) => {
+    res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ OnTheFly API</h1>')
+})
+
+const PORT = process.env.PORT || 3001
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`)
+})
+Step 2: Set up PostgreSQL database
+In this step, we'll initialize a Postgres database with Render and connect to it from our server.
+
+
+In your server directory, create a new directory called config. This directory will store files associated with your database.
+
+
+Inside the config directory, create a JavaScript file called dotenv.js.
+
+
+In the dotenv.js file, import the dotenv package and configure dotenv to read from a .env file in the server directory.
+
+import dotenv from 'dotenv'
+dotenv.config({ path: '../.env' })
+
+Inside the config directory, create another JavaScript file called database.js.
+
+
+In the database.jsfile, import thepgpackage and thedotenv.js` file.
+
+import pg from 'pg'
+import './dotenv.js'
+
+Create a connection pool so we can make frequent queries to the Postgres database.
+
+AI opportunity
+
+Use AI to explain code concepts → Creating a connection pool
+If you don't remember how to do this, that's ok! Ask Copilot how to create a connection pool using the Express pg package to get an example.
+
+It may give you an example that fills in placeholder values for each field instead of setting them to environment variables. If that happens, try asking it to modify the code to use environment variables instead.
+
+Want to double-check your code? Compare what you have to this ⤵️
+import pg from 'pg'
+import './dotenv.js'
+
+const config = {
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    database: process.env.PGDATABASE,
+    ssl: {
+        rejectUnauthorized: false
+    }
+}
+
+export const pool = new pg.Pool(config)
+Next, you'll update the environment variables in the config object with the variables from the cloud database you will create on Render:
+
+
+In the server directory, create a file called .env
+
+
+Add the following variables to the .env file:
+
+PGDATABASE=
+PGHOST=
+PGPASSWORD=
+PGPORT=
+PGUSER=
+
+Navigate to Render.
+
+⚠️ ️️️️Before continuing, make sure to suspend any active Postgres databases that aren't related to your current lab or project. Render's free tier only allows for one active Postgres database at a time.
+
+Want to confirm the procedure? Check it out here ⤵️
+
+From your dashboard, select the Project with your database in it.
+
+Selecting Render project with active database
+
+
+Select the database to be suspended.
+
+Selecting active database
+
+
+Scroll down to the bottom of the database information page and click Suspend Database.
+
+Locating suspend button at bottom of screen
+
+
+Confirm your selection by typing the required phrase sudo suspend database {DB NAME}.
+
+Confirming database suspension
+
+
+To re-activate an existing database, follow the same procedure as above, selecting Resume Database.
+
+All set!
+
+
+Use the + New dropdown in the header and create a new Postgres instance.
+
+Selecting PostgreSQL database on Render
+
+
+On the New Postgres page, give your instance the name onthefly, and select your WEB 103 project.
+
+
+Scroll down to Plan Options and make sure you have the Free option selected before clicking Create Database.
+
+
+After the PostgreSQL database instance has loaded, scroll down to the Connections subheading. In your server/.env file, populate the variables with their corresponding values in Render as shown below:
+
+PGDATABASE="{Database}"
+PGHOST="{Hostname}.oregon-postgres.render.com"
+PGPASSWORD="{Password}"
+PGPORT={Port}
+PGUSER="{Username}"
+For example (these are fake, but yours will be similar):
+
+PGDATABASE="onthefly"
+PGHOST="dpg-d1utt49c4c73d5jfg-a.oregon-postgres.render.com"
+PGPASSWORD="rPaThAmdRXMDdLI75B0SxyahIr"
+PGPORT=5432
+PGUSER="onthefly_user"
+📍 Checkpoint 2: Your database should be successfully running in Render:
+Successfully running database in Render
+
+Step 3: Create database tables
+In this step, we'll create the database tables we'll need for ✈️ On the Fly. Our database will contain three main tables: trips, destinations, and activities. Additionally, we'll create a join table called trips_destinations to join the trips and destinations tables.
+
+Load the starter trips data
+
+
+In the server/config directory, create a new directory called data.
+
+
+In the data directory, create a new file called data.json and copy/paste the following into this file:
+
+Data for the data.json file 👇🏽
+AI opportunity
+
+Use AI to generate sample data
+You could also choose to have Copilot generate data to use in your app instead. For example, you could say something like "Can you give me a sample JSON with fields title, description, img_url, num_days, start_date, end_date, and total_cost? I would like to have at least 5 entries."
+
+Keep in mind, however, that the image URLs that it provides are likely not real. You should check these and replace them with real image URLs instead if needed.
+
+
+Set up initial database structure
+
+Next, we'll create a reset.js file that will create the tables we'll need for our web app and read the starter trips data.
+
+
+In the server/config directory, create a new file called reset.js.
+
+
+In the reset.js file, import the following:
+
+the pool from './database.js'
+the ./dotenv.js file
+fileURLToPath from url
+path and dirname from path
+fs from fs
+import { pool } from './database.js'
+import './dotenv.js'
+import { fileURLToPath } from 'url'
+import path, { dirname } from 'path'
+import fs from 'fs'
+
+Create a new variable called currentPath that is set to the URL to the current file.
+
+const currentPath = fileURLToPath(import.meta.url)
+
+Create a new variable called tripsFile that is set to the data.json file.
+
+const tripsFile = fs.readFileSync(path.join(dirname(currentPath), '../config/data/data.json'))
+
+Create a new variable called tripsData that is set to the parsed tripsFile.
+
+const tripsData = JSON.parse(tripsFile)
+
+Drop existing tables
+
+During development, you'll run npm run reset many times to rebuild your database from scratch. To start fresh on each run, reset.js should drop the existing tables before recreating them.
+
+The order matters. Several of our tables reference others through foreign keys — for example, activities, trips_destinations, and trips_users all point to trips. PostgreSQL won't let you drop a table while another table still depends on it, so we have to drop the tables in the reverse order of their dependencies: the tables that reference others first, then the tables they point to. Otherwise the reset fails with a foreign key dependency error.
+
+We'll add a single dropAllTables() function to handle this. It lists every table we're about to create in the following steps — DROP TABLE IF EXISTS safely does nothing for a table that doesn't exist yet, so it's fine to reference tables we haven't built.
+
+In reset.js, create an asynchronous function called dropAllTables().
+In the dropAllTables() function, create a new variable called dropTablesQuery that drops every table in reverse-dependency order.
+Want to double-check your code? Compare what you have to this ⤵️
+const dropAllTables = async () => {
+  const dropTablesQuery = `
+      DROP TABLE IF EXISTS trips_users;
+      DROP TABLE IF EXISTS trips_destinations;
+      DROP TABLE IF EXISTS activities;
+      DROP TABLE IF EXISTS users;
+      DROP TABLE IF EXISTS destinations;
+      DROP TABLE IF EXISTS trips;
+  `
+
+  try {
+    await pool.query(dropTablesQuery)
+    console.log('🧹 all tables dropped successfully')
+  }
+
+  catch (err) {
+    console.error('⚠️ error dropping tables', err)
+  }
+}
+Because several of our tables depend on others through foreign keys, each step has to finish before the next one starts — otherwise a table could try to reference one that doesn't exist yet. To guarantee that order, we'll call every step from a single asynchronous resetDatabase() function and await each one, rather than firing the calls off independently.
+
+
+At the bottom of the reset.js file, create an asynchronous function called resetDatabase(). Start it with an await dropAllTables() call so the database is cleared before any tables are recreated, then call resetDatabase() on the very last line of the file.
+
+const resetDatabase = async () => {
+  await dropAllTables()
+}
+
+resetDatabase()
+
+Create the trips table
+
+Our trips table will need to have the following schema:
+image
+
+
+In reset.js, create an asynchronous function called createTripsTable().
+
+
+In the createTripsTable() function, create a new variable called createTripsTableQuery that is set to a SQL query to create the trips table.
+
+const createTripsTable = async () => {
+  const createTripsTableQuery = `
+      CREATE TABLE IF NOT EXISTS trips (
+          id serial PRIMARY KEY,
+          title varchar(100) NOT NULL,
+          description varchar(500) NOT NULL,
+          img_url text NOT NULL,
+          num_days integer NOT NULL,
+          start_date date NOT NULL,
+          end_date date NOT NULL,
+          total_cost money NOT NULL
+      );
+  `
+}
+
+Set up a try/catch block after the createTripsTableQuery variable.
+
+
+In the try block, query the database using the createTripsTableQuery.
+
+try {
+  await pool.query(createTripsTableQuery)
+  console.log('🎉 trips table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (err) {
+  console.error('⚠️ error creating trips table', err)
+}
+
+We need to load the starter trips data into the trips table we just created.
+
+
+In reset.js, create an asynchronous function called seedTripsTable().
+
+
+In the seedTripsTable() function, call the createTripsTable() function.
+
+const seedTripsTable = async () => {
+  await createTripsTable()
+}
+
+Set up a for...of loop to traverse the tripsData. A forEach won't work here — it doesn't wait for an await inside its callback, so the loop would finish before any of the trips were actually inserted. A for...of loop lets us await each insert in order.
+
+for (const trip of tripsData) {
+
+}
+
+Inside the loop, create a new variable called insertQuery that is set to a SQL query to insert each trip into the trips table.
+
+const insertQuery = {
+    text: 'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost) VALUES ($1, $2, $3, $4, $5, $6, $7)'
+}
+
+Create a new variable called values that contains the attributes for the trip.
+
+const values = [
+    trip.title,
+    trip.description,
+    trip.img_url,
+    trip.num_days,
+    trip.start_date,
+    trip.end_date,
+    trip.total_cost
+]
+
+Set up a try/catch block. In the try block, await the query using the insertQuery and values. In the catch block, log the error.
+
+try {
+    await pool.query(insertQuery, values)
+    console.log(`✅ ${trip.title} added successfully`)
+} catch (err) {
+    console.error('⚠️ error inserting trip', err)
+}
+
+In the resetDatabase() function, add an await seedTripsTable() call after dropAllTables().
+
+const resetDatabase = async () => {
+  await dropAllTables()
+  await seedTripsTable()
+}
+
+Update the "scripts" in the package.json in the server directory to the following:
+
+"start": "npm run reset && nodemon --require dotenv/config server.js",
+"reset": "cd config && node --require dotenv/config reset.js"
+In the terminal, run the command npm run reset to test your server so far.
+
+Create the destinations table
+
+Our destinations table will have the following schema:
+image
+
+In reset.js, create an asynchronous function called createDestinationsTable().
+In the createDestinationsTable() function, create a new variable called createDestinationsTableQuery that is set to a SQL query to create the destinations table.
+AI opportunity
+
+Use AI as a pair programming partner → Writing SQL query
+Ask Copilot to help you write this SQL query if you get stuck. You want to make sure you are being specific about how you need the trips table created so it gives you the correct code to achieve this. It's also helpful to provide context so it knows where and how this code will be used. For example:
+
+You:
+
+I am writing a createDestinationsTable() function to create a destinations PostgreSQL table. The table should only be created if it doesn't already exist. It needs to have the following columns:
+
+destination - text that is limited to 100 characters
+description - text that is limited to 500 characters
+city - text that is limited to 100 characters
+country - text that is limited to 100 characters
+img_url - text
+flag_img_url - text
+If we were pair programming together, and you were my navigator, how would you direct me to write this code?
+
+Want to double-check your code? Compare what you have to this ⤵️
+const createDestinationsTable = async () => {
+  const createDestinationsTableQuery = `
+      CREATE TABLE IF NOT EXISTS destinations (
+          id serial PRIMARY KEY,
+          destination varchar(100) NOT NULL,
+          description varchar(500) NOT NULL,
+          city varchar(100) NOT NULL,
+          country varchar(100) NOT NULL,
+          img_url text NOT NULL,
+          flag_img_url text NOT NULL
+      );
+  `
+}
+
+Set up a try/catch block after the createDestinationsTableQuery variable.
+
+
+In the try block, query the database using the createDestinationsTableQuery.
+
+try {
+  await pool.query(createDestinationsTableQuery)
+  console.log('🎉 destinations table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (err) {
+  console.error('⚠️ error creating destinations table', err)
+}
+
+In the resetDatabase() function, add an await createDestinationsTable() call after seedTripsTable().
+
+
+In the terminal, run the command npm run reset to test your server so far.
+
+
+Create the activities table
+
+Our activities table will have the following schema:
+image
+
+In reset.js, create an asynchronous function called createActivitiesTable().
+In the createActivitiesTable() function, create a new variable called createActivitiesTableQuery that is set to a SQL query to create the activities table.
+AI opportunity
+
+Use AI to understand why your code isn't working → Table creation
+Use the same strategy you used to create the other tables here.
+
+If you get stuck, ask Copilot or ChatGPT to review your code. Specify the name of the table you need to create and the fields that the table needs to have. Make sure to also specify that the table should only be created if it doesn't already exist!
+
+You:
+
+I am writing a createActivitiesTable() function to create an activities PostgreSQL table. The table should only be created if it doesn't already exist.
+
+This is what I've written so far: [PASTE CODE]
+
+It's giving me this error: [PASTE ERROR]
+
+Can you help me understand what's going wrong so I can fix it myself?
+
+Want to double-check your code? Compare what you have to this ⤵️
+const createActivitiesTable = async () => {
+  const createActivitiesTableQuery = `
+      CREATE TABLE IF NOT EXISTS activities (
+          id serial PRIMARY KEY,
+          trip_id int NOT NULL,
+          activity varchar(100) NOT NULL,
+          num_votes integer DEFAULT 0,
+          FOREIGN KEY(trip_id) REFERENCES trips(id)
+      );
+  `
+}
+
+Set up a try/catch block after the createActivitiesTableQuery variable.
+
+
+In the try block, query the database using the createActivitiesTableQuery.
+
+try {
+  await pool.query(createActivitiesTableQuery)
+  console.log('🎉 activities table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (err) {
+  console.error('⚠️ error creating activities table', err)
+}
+
+In the resetDatabase() function, add an await createActivitiesTable() call after createDestinationsTable().
+
+
+In the terminal, run the command npm run reset to test your server so far.
+
+
+Create the trips_destinations table
+
+Our trips_destinations join table will have the following schema:
+image
+
+In reset.js, create an asynchronous function called createTripsDestinationsTable().
+In the createTripsDestinationsTable() function, create a new variable called createTripsDestinationsTableQuery that is set to a SQL query to create the trips_destinations table.
+AI opportunity
+
+Use AI to understand why your code isn't working → Table creation
+Use the same strategy you used to create the other tables here.
+
+If you get stuck, ask Copilot or ChatGPT to review your code. Specify the name of the table you need to create and the fields that the table needs to have. Make sure to also specify that the table should only be created if it doesn't already exist!
+
+You:
+
+I am writing a createActivitiesTable() function to create an activities PostgreSQL table. The table should only be created if it doesn't already exist.
+
+This is what I've written so far: [PASTE CODE]
+
+It's giving me this error: [PASTE ERROR]
+
+Can you help me understand what's going wrong so I can fix it myself?
+
+Want to double-check your code? Compare what you have to this ⤵️
+const createTripsDestinationsTable = async () => {
+  const createTripsDestinationsTableQuery = `
+      CREATE TABLE IF NOT EXISTS trips_destinations (
+          trip_id int NOT NULL,
+          destination_id int NOT NULL,
+          PRIMARY KEY (trip_id, destination_id),
+          FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE,
+          FOREIGN KEY (destination_id) REFERENCES destinations(id) ON UPDATE CASCADE
+      );
+  `
+}
+
+Set up a try/catch block after the createTripsDestinationsTableQuery variable.
+
+
+In the try block, query the database using the createTripsDestinationsTableQuery.
+
+try {
+  await pool.query(createTripsDestinationsTableQuery)
+  console.log('🎉 trips_destinations table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (err) {
+  console.error('⚠️ error creating trips_destinations table', err)
+}
+
+In the resetDatabase() function, add an await createTripsDestinationsTable() call after createActivitiesTable().
+
+
+In the terminal, run the command npm run reset to test your server so far.
+
+
+Create the users table
+
+Our users table will have the following schema:
+image of the database schema for the users table
+
+In reset.js, create an asynchronous function called createUsersTable().
+In the createUsersTable() function, create a new variable called createUsersTableQuery that is set to a SQL query to create the users table.
+AI opportunity
+
+Use AI to understand why your code isn't working → Table creation
+Use the same strategy you used to create the other tables here.
+
+If you get stuck, ask Copilot or ChatGPT to review your code. Specify the name of the table you need to create and the fields that the table needs to have. Make sure to also specify that the table should only be created if it doesn't already exist!
+
+You:
+
+I am writing a createActivitiesTable() function to create an activities PostgreSQL table. The table should only be created if it doesn't already exist.
+
+This is what I've written so far: [PASTE CODE]
+
+It's giving me this error: [PASTE ERROR]
+
+Can you help me understand what's going wrong so I can fix it myself?
+
+Want to double-check your code? Compare what you have to this ⤵️
+const createUsersTable = async () => {
+  const createUsersTableQuery = `
+      CREATE TABLE IF NOT EXISTS users (
+          id serial PRIMARY KEY,
+          githubid integer NOT NULL,
+          username varchar(100) NOT NULL,
+          avatarurl varchar(500) NOT NULL,
+          accesstoken varchar(500) NOT NULL
+      );
+  `
+}
+
+Set up a try/catch block after the createUsersTableQuery variable.
+
+
+In the try block, query the database using the createUsersTableQuery.
+
+try {
+  await pool.query(createUsersTableQuery)
+  console.log('🎉 users table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (error) {
+  console.error('⚠️ error creating users table', err)
+}
+
+In the resetDatabase() function, add an await createUsersTable() call after createTripsDestinationsTable().
+
+
+In the terminal, run the command npm run reset to test your server so far.
+
+
+Create the trips_users table
+
+Lastly, our trips_users table will have the following schema:
+image of the database schema for the trips_users table
+
+In reset.js, create an asynchronous function called createTripsUsersTable().
+In the createTripsUsersTable() function, create a new variable called createTripsUsersTableQuery that is set to a SQL query to create the trips_users table.
+AI opportunity
+
+Use AI to understand why your code isn't working → Table creation
+Use the same strategy you used to create the other tables here.
+
+If you get stuck, ask Copilot or ChatGPT to review your code. Specify the name of the table you need to create and the fields that the table needs to have. Make sure to also specify that the table should only be created if it doesn't already exist!
+
+You:
+
+I am writing a createActivitiesTable() function to create an activities PostgreSQL table. The table should only be created if it doesn't already exist.
+
+This is what I've written so far: [PASTE CODE]
+
+It's giving me this error: [PASTE ERROR]
+
+Can you help me understand what's going wrong so I can fix it myself?
+
+Want to double-check your code? Compare what you have to this ⤵️
+const createTripsUsersTable = async () => {
+  const createTripsUsersTableQuery = `
+      CREATE TABLE IF NOT EXISTS trips_users (
+          trip_id int NOT NULL,
+          user_id int NOT NULL,
+          PRIMARY KEY (trip_id, user_id),
+          FOREIGN KEY (trip_id) REFERENCES trips(id) ON UPDATE CASCADE,
+          FOREIGN KEY (user_id) REFERENCES users(id) ON UPDATE CASCADE
+      );
+  `
+}
+
+Set up a try/catch block after the createTripsUsersTableQuery variable.
+
+
+In the try block, query the database using the createTripsUsersTableQuery.
+
+try {
+  await pool.query(createTripsUsersTableQuery)
+  console.log('🎉 trips_users table created successfully')
+}
+
+In the catch block, log the error.
+
+catch (error) {
+  console.error('⚠️ error creating trips_users table', err)
+}
+
+In the resetDatabase() function, add an await createTripsUsersTable() call after createUsersTable(). Your completed resetDatabase() function should now look like this:
+
+const resetDatabase = async () => {
+  await dropAllTables()
+  await seedTripsTable()
+  await createDestinationsTable()
+  await createActivitiesTable()
+  await createTripsDestinationsTable()
+  await createUsersTable()
+  await createTripsUsersTable()
+}
+
+resetDatabase()
+
+In the terminal, run the command npm run reset to test your server so far.
+
+Step 4: Creating a trip
+In the last step, you created a PostgreSQL database with tables to store different information. We can now write the code to present that information to users when requested.
+
+In this step, we need to create two things: routes to forward HTTP requests to the appropriate controller functions and controller functions to get the requested data from the tables in the database and return it to where the HTTP request was made.
+
+Let's start by building routes and controllers to return resources from the trips table in the database.
+
+
+Create a directory called controllers
+
+
+In the controllers directory, create a JavaScript file called trips.js. This file will store controller functions to perform CRUD operations associated with the trips table.
+
+
+In trips.js, import the pool from ../config/database.js. This will allow us to make queries to the database.
+
+import { pool } from '../config/database.js'
+In trips.js, we need to define the following controller functions:
+
+createTrip() to add a new trip to the trips table.
+getTrips() to read all trips from the trips table.
+getTrip() to read a trip from the trips table.
+updateTrip() to update the details for a trip in the trips table.
+deleteTrip() to delete a trip from the trips table.
+Let's start with the createTrip() function:
+
+
+Define an asynchronous function called createTrip() that has two parameters: req and res.
+
+const createTrip = async (req, res) => {
+
+
+} 
+
+Inside the function body, add a try/catch block to help with error handling.
+
+
+In the try block, extract the title, description, img_url, num_days, start_date, end_date, and total_costfrom the req.body.
+
+const { title, description, img_url, num_days, start_date, end_date, total_cost } = req.body
+
+Add a SQL query to the database to insert a new row into the trips table.
+
+const results = await pool.query(
+  'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost) \
+  VALUES($1, $2, $3, $4, $5, $6, $7)  \
+  RETURNING *',
+  [title, description, img_url, num_days, start_date, end_date, total_cost]
+)
+
+Next, we'll send a 201 status and return the row from the database we just inserted to indicate that their request was successful.
+
+res.status(201).json(results.rows[0])
+
+In the catch block, send the a 409 status and return the error message:
+
+catch (error) {
+  res.status(409).json( { error: error.message } )
+}
+
+At the end of the trips.js file, export the createTrip() function.
+
+export default {
+  createTrip
+}
+📍 Checkpoint 3: Your createTrip() function should look like this 👇🏽
+const createTrip = async (req, res) => {
+  try {
+    const { title, description, img_url, num_days, start_date, end_date, total_cost } = req.body
+    const results = await pool.query(
+      'INSERT INTO trips (title, description, img_url, num_days, start_date, end_date, total_cost)
+      VALUES($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *',
+      [title, description, img_url, num_days, start_date, end_date, total_cost]
+    )
+
+    res.status(201).json(results.rows[0])
+  }
+
+  catch (error) {
+    res.status(409).json( { error: error.message } )
+  }
+}
+Step 5: Retrieving all trips
+Next, let's create the getTrips() function:
+
+
+Define an asynchronous function called getTrips() that has two parameters: req and res.
+
+const getTrips = async (req, res) => {
+
+
+} 
+
+Inside the function body, add a try/catch block to help with error handling.
+
+
+In the try block, make a query to the database to request all rows of data from the trips table.
+
+const results = await pool.query('SELECT * FROM trips ORDER BY id ASC')
+
+Next, we'll send a 200 status and rows from the results from the query to indicate that the request was successful.
+
+res.status(200).json(results.rows)
+
+In the catch block, we'll send a 409 status and return the error message:
+
+catch (error) {
+  res.status(409).json( { error: error.message } )
+}
+
+At the end of the trips.js file, export the getTrips() function.
+
+export default {
+  createTrip,
+  getTrips
+}
+📍 Checkpoint 4: Your getTrips() function should look like this 👇🏽
+const getTrips = async (req, res) => {
+  try {
+    const results = await pool.query('SELECT * FROM trips ORDER BY id ASC')
+    res.status(200).json(results.rows)
+  } catch(error){
+    res.status(409).json( { error: error.message } )
+  }
+}
+Step 6: Retrieving a trip by its ID
+Let's create the getTrip() function.
+
+
+Define an asynchronous function called getTrip() that has two parameters req and res.
+
+const getTrip = async (req, res) => {
+
+
+} 
+
+Inside the function body, add a try/catch block to help with error handling.
+
+
+In the try block, extract the id from the URL parameter and convert it to an integer.
+
+const id = parseInt(req.params.id)
+
+Make a query to the database to get the rows from the trips table that match id.
+
+AI opportunity
+
+Use AI to brainstorm ideas for your code → SQL examples
+Want to double-check your code? Compare what you have to this ⤵️
+
+Next, send a 200 status and the row from the query results to indicate that the request was successful.
+
+res.status(200).json(results.rows[0])
+
+In the catch block, send a 409 status and return the error message:
+
+catch (error) {
+  res.status(409).json( { error: error.message } )
+}
+
+At the end of the trips.js file, export the getTrip() function.
+
+export default {
+  createTrip,
+  getTrips,
+  getTrip
+}
+📍 Checkpoint 5: Your getTrip() function should look like this 👇🏽
+const getTrip = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id)
+    const results = await pool.query('SELECT * FROM trips WHERE id = $1', [id])
+    res.status(200).json(results.rows[0])
+  } catch(error) {
+      res.status(409).json( { error: error.message } )
+      console.log('Unable to get trip')
+      console.log('Error:', error.message)
+  }
+}
+Step 7: Updating a trip
+Next, let's create the updateTrip() function.
+
+
+Define an asynchronous function called updateTrip() that has two parameters req and res.
+
+const getTrip = async (req, res) => {
+
+
+}  
+
+Inside the function body, add a try/catch block to help with error handling.
+
+
+In the try block, extract the id from the URL parameter and convert it to an integer.
+
+const id = parseInt(req.params.id)
+
+Extract the title, description, img_url, num_days, start_date, end_date, and total_costfrom the req.body.
+
+const { title, description, img_url, num_days, start_date, end_date, total_cost } = req.body
+
+Make a query to the database to update a row from the trips table with a matching id to the values from the request body.
+
+const results = await pool.query(
+  'UPDATE trips
+  SET title = $1, description = $2, img_url = $3, num_days = $4, start_date = $5, end_date = $6, total_cost= $
+  WHERE id = $8',
+  [title, description, img_url, num_days, start_date, end_date, total_cost, id]
+)
+
+Next, send a 200 status and the row from the query results to indicate that the request was successful.
+
+res.status(200).json(results.rows[0])
+
+In the catch block, send a 409 status and return the error message:
+
+catch (error) {
+  response.status(409).json( { error: error.message } )
+}
+
+At the end of the trips.js file, export the updateTrip() function.
+
+export default {
+  createTrip,
+  getTrips,
+  getTrip,
+  updateTrip
+}
+📍 Checkpoint 6: Your updateTrip() function should look like this 👇🏽
+const updateTrip = async (request, response) => {
+  try {
+    const { title, description, img_url, num_days, start_date, end_date, total_cost } = req.body
+    const id = parseInt(req.params.id)
+
+    const results = await pool.query(
+      'UPDATE trips \
+      SET title = $1, description = $2, img_url = $3, num_days = $4, start_date = $5, end_date = $6, total_cost= $7 \
+      WHERE id = $8',
+      [title, description, img_url, num_days, start_date, end_date, total_cost, id]
+    )
+
+    res.status(200).json(results.rows);
+  }
+  catch(error){
+    res.status(409).json( { error: error.message } )
+  }
+}
+Step 8: Deleting a trip
+Let's create the deleteTrip() function.
+
+
+Define an asynchronous function called deleteTrip() that has two parameters req and res.
+
+const deleteTrip = async (req, res) => {
+
+
+} 
+
+Inside the function body, add a try/catch block to help with error handling.
+
+
+In the try block, extract the id from the URL parameter and convert it to an integer.
+
+  const id = parseInt(req.params.id)
+
+When deleting a trip, we also have to delete activities associated with the trip. Make a query to the database to delete all activities from the activities table that have a matching trip_id.
+
+const activity_deletion = await pool.query(
+  'DELETE FROM activities
+  WHERE trip_id = $1',
+  [id]
+)
+
+Make a query deleting rows of data from the trips table that have a matching id.
+
+AI opportunity
+
+Use AI to brainstorm ideas for your code → SQL examples
+Ask Copilot for an example SQL query to delete a specific row from a table that matches a given ID. Use the example to help you write this code. If you get stuck, have Copilot help you complete this step.
+
+Want to double-check your code? Compare what you have to this ⤵️
+const results = await pool.query('DELETE FROM trips WHERE id = $1', [id])
+
+Next, send a 200 status and the row from the query results to indicate that the request was successful.
+
+res.status(200).json(results.rows[0])
+
+In the catch block, send a 409 status and return the error message:
+
+catch (error) {
+  res.status(409).json( { error: error.message } )
+}
+
+At the end of the trips.js file, export the deleteTrip() function.
+
+export default {
+  createTrip,
+  getTrips,
+  getTrip,
+  updateTrip,
+  deleteTrip
+}
+📍 Checkpoint 7: Your deleteTrip() function should look like this 👇🏽
+const deleteTrip = async (req, res) => {
+  const id = parseInt(req.params.id)
+
+  try {
+    const activity_deletion = await pool.query(
+      'DELETE FROM activities \
+      WHERE trip_id = $1',
+      [id]
+    )
+
+    const results = await pool.query('DELETE FROM trips WHERE id = $1', [id])
+    res.status(200).json(results.rows)
+  }
+  catch(error) {
+    res.status(409).json( { error: error.message } )
+  }
+    
+}
+Step 9: Defining the trips routes
+Next, we'll define routes for trips that match an incoming HTTP request with the controller functions that we defined.
+
+
+In the server directory, create a directory called routes.
+
+
+In the routes directory, create a JavaScript file called trips.js.
+
+
+In trips.js, import Express.
+
+import express from 'express'
+
+Import the trips.js controller as TripsController.
+
+import TripsController from '../controllers/trips.js'
+
+Create an Express router.
+
+const router = express.Router()
+
+Export the router.
+
+export default router
+We need to let our app know to use this router when a user makes a request to the /trips endpoint. Let's update our server.js file to set this up.
+
+In server.js:
+
+
+Import the router from /routes/trips.js as tripRoutes.
+
+import tripRoutes from './routes/trips.js'
+
+After our middleware and before calling app.listen(), use app.use() to specify that the /trips endpoint should use the tripRoutes router. We'll add /api in front of the endpoint so we can set the server proxy for the frontend to /api when we set up the client.
+
+app.use('/api/trips', tripRoutes)
+This means when a user makes a request to a URL that has a path after the base URL that starts with /api/trips, the app will look into the tripRoutes module to resolve it.
+
+📍 Checkpoint 8: Your server.js file should look like this 👇🏽
+import express from 'express'
+import cors from 'cors'
+import tripRoutes from './routes/trips.js'
+
+const app = express()
+
+app.use(express.json())
+app.use(cors())
+
+app.get('/', (req, res) => {
+    res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ OnTheFly API</h1>')
+})
+
+app.use('/trips', tripRoutes)
+
+const PORT = process.env.PORT || 3001
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running on http://localhost:${PORT}`)
+})
+Step 10: Add the routes for the trips
+In the routes/trips.js file:
+
+
+Define a GET route handler that calls getTrips when a GET request is made to /trips.
+
+router.get('/', TripsController.getTrips)
+
+Define a GET route handler that calls getTrip when a GET request is made to /trips/:id.
+
+router.get('/:id', TripsController.getTrip)
+
+Define a POST route handler that calls createTrip when a POST request is made to /trips.
+
+router.post('/', TripsController.createTrip)
+
+Define a DELETE route handler that calls deleteTrip when a DELETE request is made to /trips/:id.
+
+router.delete('/:id', TripsController.deleteTrip)
+
+Define a PATCH method that calls updateTrip when a PATCH request is made to /trips/:id.
+
+router.patch('/:id', TripsController.updateTrip)
+📍 Checkpoint 9: Your trips.js file should look like this 👇🏽
+import express from 'express'
+import TripsController from '../controllers/trips.js'
+
+const router = express.Router()
+
+router.get('/', TripsController.getTrips)
+router.get('/:id', TripsController.getTrip)
+router.post('/', TripsController.createTrip)
+router.delete('/:id', TripsController.deleteTrip)
+router.patch('/:id', TripsController.updateTrip)
+
+export default router
+Step 11: Using Postman to test your endpoints
+Postman is a popular API client that makes it easy for developers to create, share, test, and document APIs. This makes it a powerful tool for API development and testing, as it provides a user-friendly interface for making HTTP requests and reading responses.
+
+Postman allows users to construct and execute different types of HTTP requests, including GET, POST, PUT, DELETE, and more. These requests can include various parameters, headers, and body data, making it a versatile tool for testing different aspects of an API.
+
+Download and install Postman from https://www.postman.com/downloads/
+In Postman, a collection is a group of saved requests that you can organize into folders.
+
+Create a collection by clicking the Create Collection button from the Collections panel.
+image
+Give your collection a name (for example, "On the Fly API").
+image
+Now, let's create a new request to test an endpoint in your Express server.
+
+Click the Add a request link from the Collections panel.
+image
+Give your request a name (for example, "GET /trips")
+image
+Let's configure the request.
+
+Choose the HTTP method on the left of the URL bar (GET, POST, DELETE, etc.) that matches the endpoint you want to test.
+Enter your Express server's URL followed by the endpoint you want to test. For example, if your server is running on http://localhost on port 3000, and you want to test a GET request to /trips, you would enter http://localhost:3000/trips.
+If your endpoint requires headers or parameters, you can add them in the Params or Headers tabs below the URL bar.
+If you're testing a POST or PATCH request, you may need to pass data in the body. You can do this in the Body tab.
+image
+Click the Send button to send the request.
+Postman will display the server's response in the lower part of the window. Here, you can review the status code, response time, size, and the body of the response.
+
+Repeat these steps for each endpoint you want to test. Remember to save each request to your collection for easy access in the future!
+
+📍 Checkpoint 10: Your "On the Fly" collection in Postman should now have requests for each of your /trips endpoints that have all been tested.
+Step 12: Your turn!
+Now that the controllers and routes are set up for the trips table, we need to do the same for the remaining tables.
+
+Follow the steps you took to implement the controllers and routes for the trips table to implement controllers and routes for the remaining tables.
+
+AI opportunity
+
+Use AI as a pair programming partner
+Use the strategies you've learned to help you with these if you get stuck. You could try using Copilot as a pair programmer as you implement these controllers and routes, or you could ask it to generate or debug code as you go. For example, if you want to use Copilot as the driver while implementing the controllers and routes for the activities table:
+
+You:
+
+I have a PostgreSQL table called activities that has fields id, trip_id (int), activity (varchar), num_votes (integer), and foreign key trip_id that references trips(id).
+
+I need to create a createActivity() function that inserts a new activity into my activities table. Inside my try block, I first need to extract the activity, num_votes, and trip_id from the req.body. Write the code for this step.
+
+For the activities table...
+
+Create controller functions to:
+
+Insert a new activity
+Retrieve all activities
+Retrieve all activities associated with a specific trip
+Update the number of likes for a specific activity
+Delete a single activity
+Create route handlers for the following endpoints:
+
+GET requests at /activities that calls the getActivities function
+GET requests at /activities/:trip_id that calls the getTripActivities function
+POST requests at /activities/:trip_id that calls the createActivity function
+DELETE requests at /activities/:id that calls the deleteActivity function
+PATCH requests at '/activities/:id that calls the updateActivityLikes function
+
+For the destinations table...
+
+Create controller functions to:
+
+Insert a new destination
+Retrieve all destinations
+Retrieve a single destination
+Update the details for a single destination
+Delete a single destination
+Create route handlers for the following endpoints:
+
+GET requests at /destinations that calls the getDestinations function
+GET requests at /destinations/:id that calls the getDestination function
+POSTS requests at /destinations that calls the createDestination function
+DELETE requests at /destinations/:id that calls the deleteDestination function
+PATCH requests at /destinations/:id that calls the updateDestination function
+
+For the trip_destinations table...
+
+Create controller functions to:
+
+Insert a new trip destination
+Retrieve all trip destinations
+Retrieve all trips associated with a specific destination
+Retrieve all destinations associated with a specific trip
+Create route handlers for the following endpoints:
+
+GET requests at / that calls the getTripsDestinations function
+GET requests at /trips/:destination_id that calls the getAllTrips function
+GET requests at /destinations/:trip_id that calls the getAllDestinations function
+POST requests at / that calls the createTripDestination function
+🎉🎉🎉 Congratulations, you've completed this lab! 🎉🎉🎉
+💡 Tip: Remember to come back and reference this lab when you need to do similar things in your project!
