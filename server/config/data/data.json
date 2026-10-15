@@ -1,0 +1,47 @@
+[
+  {
+    "title": "Vegas Graduation Trip",
+    "description": "Graduation celebration in Las Vegas with Bellagio fountains, blackjack tables, and fine dining.",
+    "img_url": "https://images.unsplash.com/photo-1581351721010-8cf859cc18a1?auto=format&fit=crop&w=800&q=80",
+    "num_days": 4,
+    "start_date": "2026-05-20",
+    "end_date": "2026-05-24",
+    "total_cost": "$1200.00"
+  },
+  {
+    "title": "Tokyo Food & Culture Tour",
+    "description": "Exploring Shibuya, Shinjuku, ramen shops, and historic temples across Tokyo.",
+    "img_url": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80",
+    "num_days": 7,
+    "start_date": "2026-09-10",
+    "end_date": "2026-09-17",
+    "total_cost": "$2500.00"
+  },
+  {
+    "title": "Pacific Coast Highway Roadtrip",
+    "description": "Scenic drive along California Highway 1 with stops at Big Sur, Monterey, and Santa Barbara.",
+    "img_url": "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80",
+    "num_days": 5,
+    "start_date": "2026-07-01",
+    "end_date": "2026-07-06",
+    "total_cost": "$950.00"
+  },
+  {
+    "title": "Paris Art & Romance getaway",
+    "description": "Visiting the Louvre, Eiffel Tower, Versailles, and enjoying French bakeries.",
+    "img_url": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80",
+    "num_days": 6,
+    "start_date": "2026-10-12",
+    "end_date": "2026-10-18",
+    "total_cost": "$2800.00"
+  },
+  {
+    "title": "Costa Rica Adventure",
+    "description": "Rainforest hiking, zip-lining, volcanic hot springs, and Pacific beach relaxing.",
+    "img_url": "https://images.unsplash.com/photo-1518259102261-b40117eabbc9?auto=format&fit=crop&w=800&q=80",
+    "num_days": 8,
+    "start_date": "2026-11-05",
+    "end_date": "2026-11-13",
+    "total_cost": "$1800.00"
+  }
+]
