@@ -1,0 +1,327 @@
+{
+  "info": {
+    "_postman_id": "onthefly-api-collection-id",
+    "name": "On the Fly API",
+    "description": "Postman Collection for On the Fly API (WEB103 Unit 5 Lab)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Trips",
+      "item": [
+        {
+          "name": "GET /api/trips",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips"]
+            }
+          }
+        },
+        {
+          "name": "GET /api/trips/:id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST /api/trips",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Miami Beach Getaway\",\n  \"description\": \"Relaxing weekend at South Beach.\",\n  \"img_url\": \"https://images.unsplash.com/photo-1506929562872-bb421503ef21\",\n  \"num_days\": 3,\n  \"start_date\": \"2026-06-01\",\n  \"end_date\": \"2026-06-04\",\n  \"total_cost\": \"$800.00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trips",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips"]
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/trips/:id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Miami Beach Luxury Escape\",\n  \"description\": \"Updated description for Miami getaway.\",\n  \"img_url\": \"https://images.unsplash.com/photo-1506929562872-bb421503ef21\",\n  \"num_days\": 4,\n  \"start_date\": \"2026-06-01\",\n  \"end_date\": \"2026-06-05\",\n  \"total_cost\": \"$1000.00\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trips/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/trips/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Destinations",
+      "item": [
+        {
+          "name": "GET /api/destinations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/destinations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "destinations"]
+            }
+          }
+        },
+        {
+          "name": "GET /api/destinations/:id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/destinations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "destinations", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST /api/destinations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Eiffel Tower\",\n  \"description\": \"Iconic iron lattice tower on the Champ de Mars in Paris.\",\n  \"city\": \"Paris\",\n  \"country\": \"France\",\n  \"img_url\": \"https://images.unsplash.com/photo-1502602898657-3e91760cbb34\",\n  \"flag_img_url\": \"https://flagcdn.com/w320/fr.png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/destinations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "destinations"]
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/destinations/:id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"destination\": \"Eiffel Tower Light Show\",\n  \"description\": \"Updated description of Eiffel Tower.\",\n  \"city\": \"Paris\",\n  \"country\": \"France\",\n  \"img_url\": \"https://images.unsplash.com/photo-1502602898657-3e91760cbb34\",\n  \"flag_img_url\": \"https://flagcdn.com/w320/fr.png\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/destinations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "destinations", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/destinations/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/destinations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "destinations", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Activities",
+      "item": [
+        {
+          "name": "GET /api/activities",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "activities"]
+            }
+          }
+        },
+        {
+          "name": "GET /api/activities/:trip_id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "activities", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST /api/activities/:trip_id",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"activity\": \"Bellagio Fountain Show\",\n  \"num_votes\": 5\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "activities", "1"]
+            }
+          }
+        },
+        {
+          "name": "PATCH /api/activities/:id",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"num_votes\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "activities", "1"]
+            }
+          }
+        },
+        {
+          "name": "DELETE /api/activities/:id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/activities/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "activities", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Trips Destinations",
+      "item": [
+        {
+          "name": "GET /api/trips-destinations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips-destinations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips-destinations"]
+            }
+          }
+        },
+        {
+          "name": "GET /api/trips-destinations/trips/:destination_id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips-destinations/trips/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips-destinations", "trips", "1"]
+            }
+          }
+        },
+        {
+          "name": "GET /api/trips-destinations/destinations/:trip_id",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/trips-destinations/destinations/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips-destinations", "destinations", "1"]
+            }
+          }
+        },
+        {
+          "name": "POST /api/trips-destinations",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"trip_id\": 1,\n  \"destination_id\": 1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/trips-destinations",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "trips-destinations"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3001"
+    }
+  ]
+}

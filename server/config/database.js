@@ -1,0 +1,13 @@
+import pg from 'pg'
+import './dotenv.js'
+
+const config = {
+    user: process.env.PGUSER,
+    password: process.env.PGPASSWORD,
+    host: process.env.PGHOST,
+    port: process.env.PGPORT,
+    database: process.env.PGDATABASE,
+    ssl: process.env.PGHOST === 'localhost' || process.env.PGHOST === '127.0.0.1' ? false : { rejectUnauthorized: false }
+}
+
+export const pool = new pg.Pool(config)
